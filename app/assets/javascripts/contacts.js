@@ -1,19 +1,15 @@
 // Waiting for the DOM to finish loading
 $(document).ready(function(){
  
- 
   var contacts = [];
   var count = 0;
  
- 
-  
   var deleteContact = function(event){
     console.log("Delete", this);
     $(this).parents(".contact").remove();
   };
   
   $("#contacts").on("click", ".delete", deleteContact);
- 
  
   var addContact = function(newContact){
     var contactString = ["<div id='", newContact.id, "' class='contact'>",
@@ -54,7 +50,6 @@ $(document).ready(function(){
     // Reset the form
     this.reset();
  
- 
     // Keeping track of new contacts
     var newContact = { id: count,
                        name: name,
@@ -63,12 +58,17 @@ $(document).ready(function(){
                        imgUrl: imgUrl };
     count += 1;
  
- 
     contacts.push(newContact);
  
-    // Call a function to add our contact to 
-    //  the page.
+    // Call a function to add our contact to the page.
     addContact(newContact);
- 
+
+    $.get('/contacts.json').done(function(data) {
+      contacts = data
+      $.each(contacts, function(name, email, phone, image){
+        addContact(name, email, phone, image)
+        ('body').append(addContact)
+      });
+    });
   });
 });
