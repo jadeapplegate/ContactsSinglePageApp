@@ -65,9 +65,11 @@ $(document).ready(function(){
 
     $.get('/contacts.json').done(function(data) {
       contacts = data
-      $.each(contacts, function(name, email, phone, image){
-        addContact(name, email, phone, image)
-        ('body').append(addContact)
+      $.each(contacts, function(data){
+        for (var i in data){
+          addContact(data[i])
+        // ('body').append(addContact)
+        }
       });
     });
   });
